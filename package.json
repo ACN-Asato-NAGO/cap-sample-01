@@ -14,7 +14,10 @@
     "sqlite3": "^5.0.4"
   },
   "scripts": {
-    "start": "cds run"
+    "start": "cds run",
+    "build": "NODE_ENV=production cds build/all --clean",
+    "push:db": "cf push -f gen/db -k 256M",
+    "push:app": "cf push -f gen/srv --random-route -k 320M"
   },
   "engines": {
     "node": "^16.15"
@@ -47,7 +50,10 @@
   "cds": {
     "requires": {
       "db": {
-        "kind": "sql"
+        "kind": "sqlite",
+        "[production]": {
+          "kind": "hana"
+        }
       }
     },
     "hana": {
